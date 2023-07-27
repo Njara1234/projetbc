@@ -97,7 +97,7 @@ def add_header_text(canvas, text):
     canvas.drawCentredString(595/2, 810, text)
     canvas.restoreState()
 
-def generate_pdf_qr(filename, header, content_list):
+"""def generate_pdf_qr(filename, header, content_list):
     print("generate pdf")
     # Create a canvas object
     filename = os.path.join('documents', filename)
@@ -181,20 +181,35 @@ def generate_pdf_qr(filename, header, content_list):
 
         return 1
     else:
-        return 0
+        return 0"""
 
 
-def generate_pdf(filename, header, content_list):
-    # Créer un objet canvas
+def generate_pdf_qr(filename, header, content_list):
+    print("generate pdf")
+    # Create a canvas object
     filename = os.path.join('documents', filename)
     c = canvas.Canvas(filename + ".pdf", pagesize=letter)
-    # Définir la taille du canvas en A4
+    # Set the canvas size to A4
     c.setPageSize((595, 842))
 
-    # todo validation content_list
+    # Function to generate QRCode image and return its filename
+    def generate_qr_code(data):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(data)
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill_color="black", back_color="white")
+        qr_filename = f"qr_code_{data}.png"
+        qr_img.save(qr_filename)
+        return qr_filename
+
     col = content_list[0]
     if col > 0:
-        li = content_list[4] - content_list[3] + 1  # nombres de mois
+        li = content_list[4] - content_list[3] + 1
         barcode_data_list = [0] * col * li
         count = 0
         mois = content_list[3]
@@ -211,13 +226,10 @@ def generate_pdf(filename, header, content_list):
                 count += 1
             mois += 1
 
-        '''
-        Draw the image on the canvas
-        '''
         # Text
         add_header_text(c, header)
 
-        # QR code drawing
+        # QRCode drawing
         originX = 50
         originY = 720
         qr_size = 100
@@ -233,20 +245,16 @@ def generate_pdf(filename, header, content_list):
                     add_header_text(c, header)
                     new_y = originY
                 for j in range(col):
-                    # Generate a QR code image
-                    qr = qrcode.QRCode(
-                        version=1,
-                        error_correction=qrcode.constants.ERROR_CORRECT_L,
-                        box_size=10,
-                        border=4,
-                    )
-                    qr_data = barcode_data_list[barcode_counter]
-                    qr.add_data(qr_data)
-                    qr.make(fit=True)
-                    qr_img = qr.make_image(fill_color="black", back_color="white")
+                    # Draw the QRCode on the PDF
+                    barcode_data = barcode_data_list[barcode_counter]
+                    qr_filename = generate_qr_code(barcode_data)
+                    c.drawImage(qr_filename, new_x, new_y, width=qr_size, height=qr_size)
 
-                    # Draw the QR code on the PDF
-                    c.drawImage(qr_img, new_x, new_y, width=qr_size, height=qr_size)
+                    # Draw the number of months under the QR code
+                    c.drawString(new_x + 20, new_y - 20, f"Mois: {mois_txt}")
+
+                    # Draw the QR code data (Partie + codique + annee + mois) next to the QR code
+                    c.drawString(new_x, new_y - 30, barcode_data)
 
                     barcode_counter += 1
 
@@ -259,9 +267,16 @@ def generate_pdf(filename, header, content_list):
         c.showPage()
         c.save()
 
+        # Delete the temporary QRCode images
+        for i in range(barcode_counter):
+            qr_filename = f"qr_code_{barcode_data_list[i]}.png"
+            os.remove(qr_filename)
+
         return 1
     else:
         return 0
+
+
     
 
 def generate_pdf(filename, header, content_list):#[3(parties),10103(codique),23(annee),1(mois_debut), 2(mois_fin)]   
@@ -776,3 +791,7 @@ def SuperadminIndex():
 @app.route('/mode_demploi')
 def mode_demploi():
     return render_template('mode_demploi.html')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

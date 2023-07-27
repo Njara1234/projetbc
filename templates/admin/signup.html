@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/styles.css')}}" />
+
+</head>
+
+<body>  
+
+    </h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category,message in messages %}
+            <div class="alert alert-{{category}}">
+                <strong>{{message}}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card">
+                <div class="card-body ">
+                    <form action="" method="POST" enctype="multipart/form-data" class="row g-3 ">
+                        
+                        <div class="col-md-6">
+                            <label for=""><b>Enter Your UserName</b></label>
+                            <input type="text" name="username" id="username" class="form-control my-1">
+                        </div>                        
+                        
+                        <div class="col-md-12">
+                            <label for=""><b>Enter Your Password</b></label>
+                            <input type="password" name="password" id="password" class="form-control my-1">
+                        </div>
+
+                       
+                       <br> 
+                       
+                        <button class="btn btn-success">Signup</button>
+                        <span class="d-flex align-items-center">Already Account ? <a href="/admin/"
+                                class="text-center nav-link">Login</a></span>
+                              
+                    </form>
+
+
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+
+</html>
+

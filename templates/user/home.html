@@ -1,0 +1,77 @@
+{% extends "user/layout.html"%}
+
+{% block content %}                 
+                
+
+<div class="row d-flex justify-content-center">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category,message in messages %}
+      <div class="alert alert-{{category}}">
+          <strong>{{message}}</strong>
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+              <h1 class="display-6 text-center my-3">
+            Générateur de PDF
+           </h1>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+
+  <div class="card">
+    <div class="card-body">
+        
+      <form method="post" action="">
+          <div class="form-group">
+              <label for="filename">Nom du fichier :</label>
+              <input type="text" name="filename" id="filename" class="form-control" required>
+          </div>
+          <div class="form-group">
+              <label for="header">En-tête :</label>
+              <input type="text" name="header" id="header" class="form-control" required>
+          </div>
+          <div class="form-group">
+              <label for="col">Nombre de colonnes :</label>
+              <input type="number" name="col" id="col" class="form-control" min="1" max="3" required>
+          </div>
+          <div class="form-group">
+            <label for="codique">Codique :</label>
+            <input type="number" name="codique" id="codique" class="form-control" required maxlength="5">
+        </div>
+        
+          <div class="form-group">
+              <label for="annee">Année :</label>
+              <input type="number" name="annee" id="annee" class="form-control" required maxlength="2">
+          </div>
+          <div class="form-group">
+              <label for="debut_mois">Début du mois :</label>
+              <input type="number" name="debut_mois" id="debut_mois" class="form-control" required maxlength="2">
+          </div>
+          <div class="form-group">
+              <label for="fin_mois">Fin du mois :</label>
+              <input type="number" name="fin_mois" id="fin_mois" class="form-control" required>
+          </div>
+
+          <div class="card mb-4 mb-md-0 ">
+            <button  type="submit" class="btn btn-success">Générer PDF</button>
+          </div>
+
+      </form>
+            
+      
+     
+    </div>
+</div>
+
+  
+{% endblock content %}

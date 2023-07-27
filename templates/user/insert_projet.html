@@ -1,0 +1,66 @@
+{% extends "user/layout.html"%}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-6 text-center my-3">
+        User insert
+    </h1>
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            {% with messages=get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category,message in messages %}
+            <div class="alert alert-{{category}}">
+                <strong>{{message}}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card">
+                <div class="card-body">
+                    <form action="/insert" method="POST">
+                        <div class="my-2">
+                            <label for=""><b>projetname</b></label>
+                            <input type="text" name="projetname" id="projetname" class="form-control my-1">
+                        </div>
+                        <div class="my-2">
+                            <label for=""><b>Enter url</b></label>
+                            <input type="url" name="url" id="url" class="form-control my-1">
+                        </div>
+                        <div class="my-2">
+                            <label for=""><b>Enter version projet</b></label>
+                            <input type="text" name="version" id="version" class="form-control my-1" placeholder="">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="comments" class="form-label">description:</label>
+                            <textarea class="form-control" name="description" id="description" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="my-2">
+                            <!--<label for=""><b>Enter Your telephone</b></label>
+                            <input type="text" name="telephone" id="telephone" class="form-control my-1">
+                        </div>-->
+                        <div class="my-2">
+                            <label for=""><b>Enter date_debut</b></label>
+                            <input id="DOB" wire:model="date_debut" class="form-control my-1" placeholder="date_debut" aria-label="Date" aria-describedby="email-icon" type="text" max="9999-12-31" onfocus="(this.type='date')" onblur="(this.type='text')" name="date_debut" required>
+                        </div>         
+                        <div class="my-2">
+                            <label for=""><b>date_estimee</b></label>
+                            <input id="DOB" wire:model="date_estimee" class="form-control my-1" placeholder="date_estimee" aria-label="Date" aria-describedby="email-icon" type="text" max="9999-12-31" onfocus="(this.type='date')" onblur="(this.type='text')" name="date_estimee" required>
+                        </div>         
+                        <!--<div style="display: none;">-->
+                            <div class="my-2" style="display: none;">
+                            <input type="text" value="{{users.id}}" name="user_id" class="form-control my-1"><br/>
+                        </div>
+                        
+
+                            <input class="btn btn-primary m-2" type="submit" value="valider">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+

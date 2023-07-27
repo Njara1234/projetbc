@@ -1,0 +1,60 @@
+{% extends "admin/layout.html"%}
+
+{% block content %}
+<div class="container">
+    {% with messages=get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    <div class="alert alert-{{category}}">
+        <strong>{{message}}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% include 'admin/navbar.html' %}
+    <div class="container">
+        <h1 class="text-center my-3">
+            tous les projets
+        </h1>
+        <div class="container mt-4">
+            <table id="datatable" class="table" >
+                    <thead>
+                        <tr>
+                          <th>Nom du projet</th>
+                          <th>url</th>
+                          <th>version</th>
+                          <th>description</th>
+                          <th>date debut</th>
+                          <th>date estimée</th>
+                          <th>date restant</th>
+                          <th>Nom titulaire</th>
+                          <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for projet in projets %}
+                        <tr>
+                          <td>{{ projet.projetname }}</td>
+                          <td><a href={{ projet.url }} target="_blank">{{ projet.url }}</a></td>
+                          <td>{{ projet.version }}</td>
+                          <td>{{ projet.description }}</td>
+                          <td>{{  projet.date_debut }}</td>
+                          <td>{{  projet.date_estimee }}</td>
+                          <td>{{ (projet.date_estimee - date_today).days+1 }} jour</td>
+                          <td>{{ projet.users.username }}</td>                         
+                          <!--<td><a href="/detail/{{projet.id}}"  class="bi bi-pen-fill">detail</a></td>-->
+                          <td><a href="/admin/remarque/{{projet.id}}" class="btn btn-danger">Remarque</a></td> 
+                         </tr> 
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+                  
+
+{% endblock content %}
+

@@ -7,11 +7,11 @@ from reportlab.graphics.barcode import code39
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.pdfgen import canvas
 from io import BytesIO
-import pdfkit
+#import pdfkit
 import os
-from flask_bootstrap import Bootstrap
+#from flask_bootstrap import Bootstrap
 #from models import User
-from flask_login import LoginManager,current_user,login_required,login_user
+#from flask_login import LoginManager,current_user,login_required,login_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from config import Config
